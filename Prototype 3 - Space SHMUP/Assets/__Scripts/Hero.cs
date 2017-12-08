@@ -23,12 +23,6 @@ public class Hero : MonoBehaviour
         bounds = Utils.CombineBoundsOfChildren(this.gameObject);
     }
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -52,5 +46,19 @@ public class Hero : MonoBehaviour
 
 
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult, 0);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        GameObject go = Utils.FindTaggedParent(other.gameObject);
+
+        if (go != null)
+        {
+            print("Triggered: " + go.name);
+        }
+        else
+        {
+            print("triggered: " + other.gameObject.name);
+        }
     }
 }
