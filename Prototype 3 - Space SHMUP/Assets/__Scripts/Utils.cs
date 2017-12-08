@@ -91,7 +91,7 @@ public class Utils : MonoBehaviour
         _camBounds.Encapsulate(boundBRF);
     }
 
-    public static Vector3 ScreenInBoundsCheck(Bounds bnd, BoundsTest test = BoundsTest.center)
+    public static Vector3 ScreenBoundsCheck(Bounds bnd, BoundsTest test = BoundsTest.center)
     {
         return (BoundsInBoundsCheck(camBounds, bnd, test));
     }
@@ -111,9 +111,109 @@ public class Utils : MonoBehaviour
                     return (Vector3.zero);
                 }
 
+                if (pos.x > bigB.max.x)
+                {
+                    off.x = pos.x - bigB.max.x;
+                }
+                else if (pos.x < bigB.min.x)
+                {
+                    off.x = pos.x - bigB.min.x;
+                }
+
+                if (pos.y > bigB.max.y)
+                {
+                    off.y = pos.y - bigB.max.y;
+                }
+                else if (pos.y < bigB.min.y)
+                {
+                    off.y = pos.y - bigB.min.y;
+                }
+
+                if (pos.z > bigB.max.z)
+                {
+                    off.z = pos.z - bigB.max.z;
+                }
+                else if (pos.z < bigB.min.z)
+                {
+                    off.z = pos.z - bigB.min.z;
+                }
+
+                return (off);
+
+            case BoundsTest.onScreen:
+                if (bigB.Contains(lilB.min) && bigB.Contains(lilB.max))
+                {
+                    return (Vector3.zero);
+                }
+
+                if (lilB.max.x > bigB.max.x)
+                {
+                    off.x = lilB.max.x - bigB.max.x;
+                }
+                else if (lilB.min.x < bigB.min.x)
+                {
+                    off.x = lilB.min.x - bigB.min.x;
+                }
+
+                if (lilB.max.y > bigB.max.y)
+                {
+                    off.y = lilB.max.y - bigB.max.y;
+                }
+                else if (lilB.min.y < bigB.min.y)
+                {
+                    off.y = lilB.min.y - bigB.min.y;
+                }
+
+                if (lilB.max.z > bigB.max.z)
+                {
+                    off.z = lilB.max.z - bigB.max.z;
+                }
+                else if (lilB.min.z < bigB.min.z)
+                {
+                    off.z = lilB.min.z - bigB.min.z;
+                }
+                return (off);
+
+            case BoundsTest.offScreen:
+                bool cMin = bigB.Contains(lilB.min);
+                bool cMax = bigB.Contains(lilB.max);
+
+                if (cMin || cMax)
+                {
+                    return (Vector3.zero);
+                }
+
+                if (lilB.min.x > bigB.max.x)
+                {
+                    off.x = lilB.min.x - bigB.max.x;
+                }
+                else if (lilB.max.x < bigB.min.x)
+                {
+                    off.x = lilB.max.x - bigB.min.x;
+                }
+
+                if (lilB.min.y > bigB.max.y)
+                {
+                    off.y = lilB.min.y - bigB.max.y;
+                }
+                else if (lilB.max.y < bigB.min.y)
+                {
+                    off.y = lilB.max.y - bigB.min.y;
+                }
+
+                if (lilB.min.z > bigB.max.z)
+                {
+                    off.z = lilB.min.z - bigB.max.z;
+                }
+                else if (lilB.max.z < bigB.min.z)
+                {
+                    off.z = lilB.max.z - bigB.min.z;
+                }
                 return (off);
         }
 
         return (Vector3.zero);
     }
+
+
 }
